@@ -1,4 +1,5 @@
-platforms
-plugins
-.saas-cache
-.idea
+platforms/
+plugins/
+.saas-cache/
+.idea/
+.DS_Store
