@@ -61,33 +61,39 @@
             Activate time schedule
           </span>
           <div class='onoffswitch'>
-            <input checked='true' class='onoffswitch-checkbox' id='myonoffswitch' name='onoffswitch' type='checkbox'>
+            <input class='onoffswitch-checkbox' id='myonoffswitch' name='onoffswitch' type='checkbox' value='false'>
             <label class='onoffswitch-label' for='myonoffswitch'>
               <span class='onoffswitch-inner'></span>
               <span class='onoffswitch-switch'></span>
             </label>
           </div>
         </div>
-        <ul class='time-scheduler'>
-          <li>
-            <span>
-              on
-            </span>
-            <div class='canvas-star'>
-              <canvas data-type='on' height='32' id='star_canvas1' width='32'></canvas>
-            </div>
-            <input class='time-edit' id='start_time' type='time' value='12:00'>
-          </li>
-          <li>
-            <span>
-              off
-            </span>
-            <div class='canvas-star'>
-              <canvas data-type='off' height='32' id='star_canvas2' width='32'></canvas>
-            </div>
-            <input class='time-edit' id='end_time' type='time' value='12:00'>
-          </li>
-        </ul>
+        <div class='time-control'>
+          <ul class='time-scheduler'>
+            <li>
+              <span>
+                on
+              </span>
+              <div class='canvas-star'>
+                <canvas data-type='on' height='32' id='star_canvas1' width='32'></canvas>
+              </div>
+              <input class='time-edit' id='start_time' type='time' value='12:00'>
+            </li>
+            <li>
+              <span>
+                off
+              </span>
+              <div class='canvas-star'>
+                <canvas data-type='off' height='32' id='star_canvas2' width='32'></canvas>
+              </div>
+              <input class='time-edit' id='end_time' type='time' value='12:00'>
+            </li>
+          </ul>
+          <div class='star-slider'>
+            <input class='slider-vertical' id='time-brightness' type='range'>
+          </div>
+          <div class='glass'></div>
+        </div>
       </div>
     </div>
     <div class='container' id='log'>

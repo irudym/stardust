@@ -53,23 +53,27 @@
           %span
             Activate time schedule
           .onoffswitch
-            %input{type: "checkbox", name: "onoffswitch", class: "onoffswitch-checkbox", id: "myonoffswitch", checked: "true"}
+            %input{type: "checkbox", name: "onoffswitch", class: "onoffswitch-checkbox", id: "myonoffswitch", value: "false"}
             %label.onoffswitch-label{for:"myonoffswitch"}
               %span.onoffswitch-inner
               %span.onoffswitch-switch
-        %ul.time-scheduler
-          %li
-            %span
-              on
-            .canvas-star
-              %canvas{id: "star_canvas1", data:{type: "on"}, width: 32, height:32}
-            %input.time-edit{type: "time", id: "start_time", value: "12:00"}
-          %li
-            %span
-              off
-            .canvas-star
-              %canvas{id: "star_canvas2", data:{type: "off"}, width: 32, height:32}
-            %input.time-edit{type: "time", id: "end_time", value: "12:00"}
+        .time-control
+          %ul.time-scheduler
+            %li
+              %span
+                on
+              .canvas-star
+                %canvas{id: "star_canvas1", data:{type: "on"}, width: 32, height:32}
+              %input.time-edit{type: "time", id: "start_time", value: "12:00"}
+            %li
+              %span
+                off
+              .canvas-star
+                %canvas{id: "star_canvas2", data:{type: "off"}, width: 32, height:32}
+              %input.time-edit{type: "time", id: "end_time", value: "12:00"}
+          .star-slider
+            %input{type: "range", id: "time-brightness", class: "slider-vertical"}
+          .glass
     #log.container
       .panel-topbar
         .back-button

@@ -179,6 +179,15 @@ function main()
         panelsManager.set_current("about");
     });
 
+    //adjust slider size
+    $(".star-slider").width($(".time-scheduler").height());
+    //$(".star-slider").css("top", $('.panel-footer').height() - $('.time-scheduler').height() + 40);
+
+    $("#myonoffswitch").click(function(e) {
+        if($("#myonoffswitch").is(':checked')) {
+            $(".glass").hide();
+        } else $(".glass").show();
+    });
 
 
     $(function() {

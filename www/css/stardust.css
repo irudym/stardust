@@ -34,7 +34,7 @@ a {
 .panel-topbar {
   color: white;
   background-color: #fff;
-  border-bottom: 1px solid #D0D0D0;
+  border-bottom: 1px solid #787878;
   clear: left;
   height: 70px;
   position: absolute;
@@ -48,11 +48,12 @@ a {
     margin-top: 16px; }
 
 .time-scheduler {
-  border-left: 2px solid #D0D0D0;
+  border-left: 2px solid #787878;
   margin-left: 80px;
   margin-top: 0px;
   list-style: none;
-  padding-bottom: 30px; }
+  padding-bottom: 30px;
+  float: left; }
   .time-scheduler li {
     padding-top: 30px;
     margin-left: -121px; }
@@ -102,7 +103,7 @@ input[type=time] {
   bottom: 0px;
   height: 260px;
   width: 100%;
-  border-top: 1px solid #D0D0D0; }
+  border-top: 1px solid #787878; }
 
 .panel-main {
   background-color: #FFFFFF;
@@ -139,13 +140,13 @@ input[type=time] {
     border: 1px solid transparent;
     border-radius: 1px;
     height: 34px;
-    color: #D0D0D0; }
+    color: #787878; }
   .panel-left-toggle .icon-bar {
     display: block;
     width: 22px;
     height: 2px;
     border-radius: 1px;
-    background-color: #D0D0D0;
+    background-color: #787878;
     margin-bottom: 4px; }
 
 .back-button {
@@ -160,7 +161,7 @@ input[type=time] {
     border: none;
     border-radius: 1px;
     height: 34px;
-    color: #D0D0D0; }
+    color: #787878; }
 
 .menu-section {
   margin: 25px 0; }
@@ -210,7 +211,7 @@ input[type=time] {
   display: block;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid #D0D0D0;
+  border: 2px solid #787878;
   border-radius: 20px; }
 
 .onoffswitch-inner {
@@ -236,7 +237,7 @@ input[type=time] {
   font-family: Roboto-Light;
   content: "ON";
   padding-left: 10px;
-  background-color: #34A7C1;
+  background-color: #7bd08d;
   color: #FFFFFF; }
 
 .onoffswitch-inner:after {
@@ -256,7 +257,7 @@ input[type=time] {
   top: 0;
   bottom: 0;
   right: 56px;
-  border: 2px solid #D0D0D0;
+  border: 2px solid #787878;
   border-radius: 20px;
   transition: all 0.3s ease-in 0s; }
 
@@ -266,11 +267,68 @@ input[type=time] {
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
   right: 0px; }
 
+.time-control {
+  height: 100%;
+  width: 100%; }
+
 .time-switch {
   display: block;
   margin-top: 15px;
   width: 100%;
-  border-bottom: 1px solid #D0D0D0;
+  border-bottom: 1px solid #787878;
   padding-left: 25px;
   padding-bottom: 35px;
   height: 32px; }
+
+.glass {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(100, 100, 100, 0.3);
+  z-index: 1000; }
+
+.star-slider {
+  position: absolute;
+  top: 58%;
+  right: 10px;
+  width: 260px; }
+  .star-slider input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 7.55px 0; }
+  .star-slider input[type=range]:focus {
+    outline: none; }
+  .star-slider input[type=range]::-webkit-slider-runnable-track {
+    background: -webkit-linear-gradient(right, #FFFFFF, #F9EDDF);
+    width: 100%;
+    height: 25.9px;
+    cursor: pointer;
+    border-radius: 3.2px;
+    border: 1px solid #787878; }
+  .star-slider input[type=range]::-webkit-slider-thumb {
+    border: 2px solid #787878;
+    height: 40px;
+    width: 20px;
+    border-radius: 11px;
+    background: #FFFFFF;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -8px; }
+  .star-slider input[type=range]:focus::-webkit-slider-runnable-track {
+    background: -webkit-linear-gradient(right, #FFFFFF, #F9EDDF); }
+  .star-slider input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 25.9px;
+    cursor: pointer;
+    border-radius: 3.2px;
+    border: 1px solid #787878;
+    background: -moz-linear-gradient(right, #FFFFFF, #F9EDDF); }
+  .star-slider input[type=range]::-moz-range-thumb {
+    border: 1px solid #787878;
+    height: 40px;
+    width: 20px;
+    border-radius: 11px;
+    background: #FFFFFF;
+    cursor: pointer; }
+  .star-slider input[type=range].slider-vertical {
+    -webkit-transform: rotate(90deg); }

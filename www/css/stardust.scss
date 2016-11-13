@@ -1,6 +1,6 @@
 //colors
 $app-white: #FFFFFF;
-$app-gray: #D0D0D0;
+$app-gray: #787878;
 $app-black: #747474;
 $star-color: #F1723B;
 $star-dark: #B39D8F;
@@ -8,6 +8,8 @@ $logo-color: #AE8A6A;
 $primary-color: #F9EDDF;
 $text-color: #C6A792;
 $menu-color: #F1F2F4;
+$light-color: #F9EDDF;
+$green-color: #7bd08d;
 
 $topbar-heigh1: 70px;
 $footbar-height: 260px;
@@ -49,6 +51,7 @@ a {
   background-color: #fff;
   transition: margin-left 0.5s;
   overflow: hidden;
+  //box-shadow: -3px 0px 14px 0px rgba(0,0,0,0.41);
 }
 
 .panel-topbar {
@@ -76,6 +79,7 @@ a {
   margin-top: 0px;
   list-style: none;
   padding-bottom: 30px;
+  float: left;
   li {
     padding-top: 30px;
     margin-left: -121px;
@@ -151,7 +155,6 @@ input[type=time] {
   position: absolute;
   top: $topbar-heigh1+2;
   padding-top: 20px;
-
   .control {
     margin: auto;
   }
@@ -290,7 +293,8 @@ input[type=time] {
   font-family: Roboto-Light;
   content: "ON";
   padding-left: 10px;
-  background-color: #34A7C1; color: #FFFFFF;
+  background-color: $green-color;
+  color: #FFFFFF;
 }
 .onoffswitch-inner:after {
   font-family: Roboto-Light;
@@ -314,6 +318,10 @@ input[type=time] {
   right: 0px;
 }
 
+.time-control {
+  height:100%;
+  width: 100%;
+}
 
 .time-switch {
   display: block;
@@ -325,5 +333,77 @@ input[type=time] {
   height: 32px;
 
   span {
+  }
+}
+
+
+.glass {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(100,100,100,0.3);
+  z-index: 1000;
+}
+
+.star-slider {
+
+  position: absolute;
+  top: 58%;
+  right: 10px;
+  width: $footbar-height;
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 7.55px 0;
+  }
+
+  input[type=range]:focus {
+    outline: none;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    background: -webkit-linear-gradient(right, $app-white , $light-color);
+    width: 100%;
+    height: 25.9px;
+    cursor: pointer;
+    border-radius: 3.2px;
+    border: 1px solid $app-gray;
+
+  }
+  input[type=range]::-webkit-slider-thumb {
+    border: 2px solid $app-gray;
+    height: 40px;
+    width: 20px;
+    border-radius: 11px;
+    background: $app-white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -8px;
+  }
+
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: -webkit-linear-gradient(right, $app-white , $light-color);
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 25.9px;
+    cursor: pointer;
+    border-radius: 3.2px;
+    border: 1px solid $app-gray;
+    background: -moz-linear-gradient(right, $app-white , $light-color);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    border: 1px solid $app-gray;
+    height: 40px;
+    width: 20px;
+    border-radius: 11px;
+    background: $app-white;
+    cursor: pointer;
+  }
+
+  input[type=range].slider-vertical {
+    -webkit-transform:rotate(90deg);
   }
 }
