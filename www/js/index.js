@@ -31,7 +31,7 @@ var STARDUST_ENDTIME = "066c070c-cb23-42f6-8d86-74695036cd1d";
 var brightnessCharacteristic = 0;
 var schedulerCharacteristic = 0;
 var starttimeCharacteristic = 0;
-var endtimeCharacterist = 0;
+var endtimeCharacteristic = 0;
 var stardust_device = 0;
 
 function log(msg) {
@@ -99,6 +99,35 @@ function drawStar(canvas_id) {
     ctx.stroke();
     ctx.fillStyle=star_color;
     ctx.fill();
+}
+
+function send_BLE_data(characteristic, value) {
+    if(stardust_device!=0) {
+        log("send_BLE_data: " + value);
+        evothings.ble.writeCharacteristic(
+            stardust_device,
+            characteristic,
+            new Uint8Array(value),
+            //new Uint8Array([0x00,0xa1,0xc2,0xd3]), => 0xd3c2a100
+            //value,
+            function() {
+                log('Send BLE data: ' + value);
+            },
+            function(error) {
+                log("Error send BLE data: " + error);
+            });
+    }
+}
+
+function send_scheduler_data() {
+    var d = new Date();
+    //var send_data = d.getMinutes() | (d.getHours() << 8) | ((100-$('#time-brightness').val())<<16);
+    //var send_data = (d.getMinutes()<<16 | (d.getHours() << 8) | ((100-$('#time-brightness').val())))<<8;
+    var send_data = [d.getMinutes(), d.getHours(),(100-$('#time_brightness').val()), 0];
+
+    log("Send data: " + send_data + " || which should contain: " + (100-$('#time_brightness').val()) + ":" + d.getHours() + ":" + d.getMinutes());
+    //send_BLE_data(schedulerCharacteristic, send_data);
+    send_BLE_data(schedulerCharacteristic, send_data);
 }
 
 function main()
@@ -183,12 +212,6 @@ function main()
     $(".star-slider").width($(".time-scheduler").height());
     //$(".star-slider").css("top", $('.panel-footer').height() - $('.time-scheduler').height() + 40);
 
-    $("#myonoffswitch").click(function(e) {
-        if($("#myonoffswitch").is(':checked')) {
-            $(".glass").hide();
-        } else $(".glass").show();
-    });
-
 
     $(function() {
         //get width
@@ -199,22 +222,13 @@ function main()
         $(".dial").knob({
             width: main_width,
             height: main_width,
+            val: 0,
             'release': function(value) {
                 log("Set value: " + value);
-                if(stardust_device!=0) {
-                    evothings.ble.writeCharacteristic(
-                        stardust_device,
-                        brightnessCharacteristic,
-                        new Uint8Array([value]),
-                        function() {
-                            log('Send data: ' + value);
-                        },
-                        function(error) {
-                            log("Error send data: " + error);
-                        });
-                }
+                send_BLE_data(brightnessCharacteristic, [value]);
             }
         });
+        $('.dial').val(0);//.trigger('change');
     });
 
     drawStar("star_canvas1");
@@ -239,7 +253,7 @@ function main()
             brightnessCharacteristic = evothings.ble.getCharacteristic(service, STARDUST_BRIGHTNESS);
             schedulerCharacteristic = evothings.ble.getCharacteristic(service, STARDUST_SCHEDULER);
             starttimeCharacteristic =  evothings.ble.getCharacteristic(service, STARDUST_STARTTIME);
-            endtimeCharacterist =  evothings.ble.getCharacteristic(service, STARDUST_ENDTIME);
+            endtimeCharacteristic =  evothings.ble.getCharacteristic(service, STARDUST_ENDTIME);
 
             stardust_device = device;
 
@@ -247,7 +261,10 @@ function main()
             //update all UI control fields
             evothings.ble.readCharacteristic(device, brightnessCharacteristic,
                 function(data) {
-                    log("Get brightness data: " + evothings.ble.fromUtf8(data));
+                    var brightness_data = new DataView(data).getUint16(0, true);
+                    log("Get brightness data: " + brightness_data);
+                    $('.dial').val(brightness_data);
+
                 },
                 function(errorCode) {
                     log('Error getting brightness data : ' + errorCode);
@@ -255,23 +272,38 @@ function main()
 
             evothings.ble.readCharacteristic(device, schedulerCharacteristic,
                 function(data) {
-                    log("Get scheduler data: " + evothings.ble.fromUtf8(data));
+                    var scheduler_data = new DataView(data).getUint32(0, true);
+                    log("Get scheduler data: " + scheduler_data);
+                    if(scheduler_data!=0) {
+                        $('#myonoffswitch').prop('checked', true);
+                        $(".glass").hide();
+                        log("==>Set scheduled brightness to: " + (100-((scheduler_data & 0xff0000) >> 16)));
+                        $('#time-brightness').val(100-((scheduler_data & 0xff0000) >> 16));
+                    }
                 },
                 function(errorCode) {
-                    log('Error getting shceduler data : ' + errorCode);
+                    log('Error getting scheduler data : ' + errorCode);
                 });
 
             evothings.ble.readCharacteristic(device, starttimeCharacteristic,
                 function(data) {
-                    log("Get start time data: " + evothings.ble.fromUtf8(data));
+                    var time_data = new DataView(data).getUint16(0, true);
+                    log("Get start time data: " + time_data);
+                    log("==>Start hour: " + ((time_data & 0xff00) >> 8));
+                    log("==>Start min:  " + (time_data &0xff));
+                    $("#start_time").val(((time_data & 0xff00) >> 8) + ":" + (time_data &0xff));
                 },
                 function(errorCode) {
                     log('Error getting start time data : ' + errorCode);
                 });
 
-            evothings.ble.readCharacteristic(device, endtimeCharacterist,
+            evothings.ble.readCharacteristic(device, endtimeCharacteristic,
                 function(data) {
-                    log("Get end time data: " + evothings.ble.fromUtf8(data));
+                    var time_data = new DataView(data).getUint16(0, true);
+                    log("Get end time data: " + time_data);
+                    log("==>End hour: " + ((time_data & 0xff00) >> 8));
+                    log("==>End min:  " + (time_data &0xff));
+                    $("#end_time").val(((time_data & 0xff00) >> 8) + ":" + (time_data &0xff));
                 },
                 function(errorCode) {
                     log('Error getting end time data : ' + errorCode);
@@ -318,6 +350,38 @@ function main()
             log('Scan error: ' + error)
         }
     }
+
+    $("#myonoffswitch").click(function(e) {
+        if($("#myonoffswitch").is(':checked')) {
+            $(".glass").hide();
+            //send scheduler data : brightness:hour:minutes
+            //hour:minutes can allow to set the clock at the controller
+            send_scheduler_data();
+        } else {
+            $(".glass").show();
+            send_BLE_data(schedulerCharacteristic, [0,0,0,0]);
+        }
+    });
+
+    $("#start_time").change(function() {
+        log("Start time changed to: " + $("#start_time").val());
+        time = $("#start_time").val().split(':');
+        send_BLE_data(starttimeCharacteristic,[parseInt(time[1]), parseInt(time[0]),0 ,0]);
+    });
+
+    $("#end_time").change(function() {
+        log("End time changed to: " + $("#end_time").val());
+        time = $("#end_time").val().split(':');
+        send_BLE_data(endtimeCharacteristic,[parseInt(time[1]), parseInt(time[0]),0 ,0]);
+    });
+
+    $("#time_brightness").mouseup(function() {
+        send_scheduler_data();
+    });
+
+    $("#time_brightness").on("touchend", function(ev) {
+        send_scheduler_data();
+    });
 
     findDevice();
 }
